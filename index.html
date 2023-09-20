@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BazaarLk</title>
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+
+  
+  <body onload="loadInitialData()">
+
+<!-- Mobile Toogler Button For Adding A New Item -->
+<div class="add__new__btn__mobile__only ">
+<button type="button" class="btn btn-danger " data-bs-toggle="modal" data-bs-target="#addNewModal">
+   <i class="fas fa-plus"></i>Add New Item
+</button>
+</div>
+
+<!-- Modal for Adding a New Item -->
+<div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addNewModalLabel">Add Post Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image URL</label>
+              <input type="url" class="form-control" id="imageUrl" placeholder="Enter Your Image URL" />   
+            </div>
+            <div class="mb-3">
+              <label for="taskTitle" class="form-label">Product Title</label>
+              <input type="text" class="form-control" id="taskTitle" placeholder="Enter product title here" required/>
+            </div>
+             <div class="mb-3">
+              <label for="tags" class="form-label">Category</label>
+              <input type="text" class="form-control" id="tags" placeholder="Property | Vehicle | Electronic | Fashion | Animal" required/>
+            </div>
+             <div class="mb-3">
+              <label for="taskDescription" class="form-label">Product Description</label>
+              <textarea type="text" class="form-control" id="taskDescription" rows="4" 
+                placeholder="Enter product description here"  required>
+            </textarea>
+            </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" onclick="handleSubmit()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal for viewing the detailed info on the card -->
+
+<div class="modal fade" id="showTask" tabindex="-1" aria-labelledby="showTaskLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="showTaskLabel">Product Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body task__modal__body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">BazaarLk</a>
+
+        <!-- hamberg option/toggler options -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Home Link -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Get the App</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">About Us</a>
+            </li>
+          </ul>
+
+          <!-- Add a task -->
+          <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal" data-bs-target="#addNewModal">
+            <i class="fas fa-plus"></i> Post Your Ad
+          </button>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- Main Container -->
+    <div class="container text-center"">
+      <section class="mt-4">
+       <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group flex-nowrap shadow-lg rounded">
+           
+            <input type="search" class="form-control" placeholder="Search Task" 
+             aria-describedby="addon-wrapping" oninput="searchTask.apply(this, arguments)">
+             <span class="input-group-text" id="addon-wrapping">
+              <i class="fas fa-search"></i>
+             </span>
+          </div>
+        </div>
+       </div>
+      </section>
+      
+      <section class="mt-4">
+        <div class="row task__contents">
+          <h5>The Place Where Buying & Selling Unite </h5>
+        </div>
+      </section>
+    </div>
+
+<br><br><br>
+
+    <!-- Get the App Section -->
+    <div>
+    <section class="container get__the_app">
+      <div class="semiContainer">
+          <div class="left">
+              <img src="/images/mobileBanner.png" alt="mobileBanner"/>
+          </div>
+          <div class="right">
+              <h1>Get the BazaarLk App</h1>
+
+              <div class="download__app_container">
+                  <h5>Download App From</h5>
+
+                  <div>
+                    <a href="https://play.google.com/store/apps" rel="playstore">
+                      <img src="/images/appleStore.png" alt="apple store"/>
+                      <img src="/images/playStore.png" alt="playstore"/>
+                    </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+</div>
+
+<br><br><br>
+
+    <!-- custom JS File -->
+    <script src="index.js"></script>
+
+    <!-- Bootstrap CDN -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+
+  </body>
+
+  <!-- Footer Section -->
+<div>
+  <footer class="container footer">
+    <div class="footer_section1">
+        <h3><b>BazaarLk</b></h3>
+
+        <div class="section1_buttoncontainer">
+            <button>
+                <img src="https://flagcdn.com/w40/lk.png" alt="sri lanka flag"style="width: 20px;">
+                SL
+            </button>
+                
+            <button>
+                <i class="fa-solid fa-globe" style="color: #000000;"></i>
+                English
+            </button>      
+        </div>
+    </div>
+
+    <div class="navigation_container">
+        <div class="link_container">
+            <h5>ABOUT BazaarLk</h5>
+            <a class="footer_link" href="#">Who we are</a>
+            <a class="footer_link" href="#">Blogs</a>
+            <a class="footer_link" href="#">Work with us</a>
+            <a class="footer_link" href="#">Sell fast</a>
+            <a class="footer_link" href="#">Banner Ads</a>
+        </div>
+
+        <div class="link_container">
+            <h5>HELP & SUPPORT</h5>
+            <a class="footer_link" href="#">FAQ</a>
+            <a class="footer_link" href="#">Stay safe</a>
+            <a class="footer_link" href="#">Contact us</a>
+        </div>
+
+        <div class="link_container">
+            <h5>FOR YOU</h5>
+            <a class="footer_link" href="#">Partner with Us</a>
+            <a class="footer_link" href="#">Apps for You</a>
+            <br>
+            <h5>FOR ENTERPRISES</h5>
+            <a class="footer_link" href="#">BazaarLk for Work</a>
+        </div>
+
+        <div class="link_container">
+            <h5>LEARN MORE</h5>
+            <a class="footer_link" href="#">Privacy</a>
+            <a class="footer_link" href="#">Security</a>
+            <a class="footer_link" href="#">Terms</a>
+            <a class="footer_link" href="#">Sitemap</a>
+        </div>
+
+        <div class="link_container">
+            <h5>SOCIAL MEDIA</h5>
+            <div class="social__link_container">
+                <button><a href="https://www.linkedin.com/home?originalSubdomain=lk" ><i class="fa-brands fa-linkedin-in"></i></a></button>
+                <button><a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a></button>
+                <button><a href="https://www.facebook.com/"></a><i class="fa-brands fa-facebook"></i></a></button>
+                
+            </div>
+            <br>
+            <img src="/images/appleStore.png" alt="apple store" class="footer__section_logo"/>
+            <img src="/images/playStore.png" alt="playstore" class="footer__section_logo"/>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="disclaimer">
+        By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are propoties of their respective owners. &copy;2023 BazaarLk<sup>TM</sup> Ltd. All rights reserved. 
+    </div>
+    <br>
+</footer>
+</div>
+
+</html>
